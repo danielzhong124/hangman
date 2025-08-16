@@ -11,7 +11,7 @@ class Hangman
   end
 
   def play
-    @word = new_word
+    @word = rand_word
     @player.new_game!(@word.length)
     puts @player.correct_letters
   end
@@ -26,7 +26,7 @@ class Hangman
     end
   end
 
-  def new_word
+  def rand_word
     return @dict[rand(@dict.length)]
   end
 end
