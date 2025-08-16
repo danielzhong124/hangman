@@ -1,11 +1,13 @@
 class Player
-  
+
   def initialize
-    @mistakes_left = 6
+    @correct_letters = []
+    @incorrect_letters = []
   end
 
-  def reset!
-    @mistakes_left = 6
+  def new_game!(word_length)
+    @correct_letters = Array.new(word_length, '_')
+    @incorrect_letters = []
   end
 
   def guess
@@ -20,7 +22,11 @@ class Player
     return letter
   end
 
-  def penalize!
-    @mistakes_left -= 1
+  def mistakes_left
+    return 6 - @incorrect_letters.length
+  end
+
+  def correct_letters
+    return @correct_letters.join(' ')
   end
 end
