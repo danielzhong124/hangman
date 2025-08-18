@@ -1,32 +1,49 @@
+# frozen_string_literal: true
+
 class Player
+  attr_accessor :correct_letters, :letters_used, :mistakes
+
+  MAX_MISTAKES = 6
 
   def initialize
     @correct_letters = []
-    @incorrect_letters = []
+    @letters_used = []
+    @mistakes = 0
   end
 
   def new_game!(word_length)
     @correct_letters = Array.new(word_length, '_')
-    @incorrect_letters = []
+    @letters_used = []
+    @mistakes = 0
   end
 
   def guess
-    print 'Guess a letter: '
-    letter = gets.chomp.downcase
+    print 'Enter your guess: '
+    guess = gets.chomp.downcase
 
-    until letter.match?(/^[a-z]$/)
+    until valid_guess?(guess)
       print 'Invalid guess. Try again: '
-      letter = gets.chomp.downcase
+      guess = gets.chomp.downcase
     end
 
-    return letter
+    guess
   end
 
-  def mistakes_left
-    return 6 - @incorrect_letters.length
+  def valid_guess?(guess)
+    guess.match?(/^[a-z]$/) && !@letters_used.include?(guess)
   end
 
-  def correct_letters
-    return @correct_letters.join(' ')
+  def print_status
+    puts @correct_letters.join(' ')
+    puts "Incorrect guesses: #{@mistakes} / #{MAX_MISTAKES}"
+    puts "Letters used: #{@letters_used.join}"
+  end
+
+  def lost?
+    @mistakes >= MAX_MISTAKES
+  end
+
+  def won?
+    !@correct_letters.include?('_')
   end
 end
