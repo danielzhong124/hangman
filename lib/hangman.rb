@@ -19,11 +19,13 @@ class Hangman
     until @player.lost? || @player.won?
       @player.print_status
       guess = @player.guess
+      
+      print "\n"
       update_player!(guess)
     end
 
     puts @player.lost? ? 'You lose!' : 'You win!'
-    puts "The word was #{@word}"
+    puts "The word was: #{@word}."
   end
 
   def load_dict(dict_file)
