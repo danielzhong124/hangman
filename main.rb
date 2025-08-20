@@ -2,5 +2,6 @@
 
 require_relative 'lib/hangman'
 
-game = Hangman.new
-game.play
+system('cls')
+hangman = Hangman.new
+hangman.start_game
