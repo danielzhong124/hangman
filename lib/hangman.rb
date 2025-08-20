@@ -25,31 +25,4 @@ class Hangman
   def rand_word
     @words.empty? ? '' : @words.sample
   end
-
-  #   def get_positions(letter)
-  #     indices = []
-  #
-  #     index = @word.index(letter)
-  #     until index.nil?
-  #       indices.push(index)
-  #       index = @word.index(letter, index + 1)
-  #     end
-  #
-  #     indices
-  #   end
-  #
-  #   def update_player!(letter)
-  #     @player.letters_used.push(letter)
-  #
-  #     index = @word.index(letter)
-  #     if index.nil?
-  #       @player.mistakes += 1
-  #       return
-  #     end
-  #
-  #     until index.nil?
-  #       @player.correct_letters[index] = @word[index]
-  #       index = @word.index(letter, index + 1)
-  #     end
-  #   end
 end
