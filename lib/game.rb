@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+require 'yaml'
+
 class Game
+  SAVE = 'saves/saved_game.yaml'
+
   def initialize(word)
     @word = word
     @correct_letters = Array.new(@word.length, '_')
@@ -13,7 +17,7 @@ class Game
       system('cls')
       display_player
       guess = new_guess
-      update_player!(guess)
+      guess == '!' ? save_game : update_player!(guess)
     end
 
     puts lost? ? 'You lose!' : 'You win!'
@@ -24,7 +28,6 @@ class Game
     puts "Incorrect guesses left: #{@strikes_left}"
     puts @correct_letters.join(' ')
     puts "Letters used: #{@used_letters.join}"
-    print "\n"
   end
 
   def lost?
@@ -36,14 +39,14 @@ class Game
   end
 
   def new_guess
-    print 'Guess a letter: '
+    print "Enter your guess (or '!' to save and quit): "
     guess = gets.chomp.downcase
-    until valid_guess?(guess)
-      puts 'Invalid guess. Try again.'
-      print 'Guess a letter: '
+    until guess == '!' || valid_guess?(guess)
+      print "Enter your guess (or '!' to save and quit): "
       guess = gets.chomp.downcase
     end
 
+    print "\n"
     guess
   end
 
@@ -63,5 +66,11 @@ class Game
         index = @word.index(letter, index + 1)
       end
     end
+  end
+
+  def save_game
+    File.open(SAVE, 'w') { |file| YAML.dump(self, file) }
+    puts 'Game saved!'
+    exit(0)
   end
 end
